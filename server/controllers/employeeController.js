@@ -29,3 +29,22 @@ export const addEmployee = async(req, res, next)=> {
         
     }
 }
+
+
+
+export const getEmployee = async(req, res, next)=> {
+
+    try {
+
+        const getEmployee = await Employee.find();
+        res.status(200).json({
+            status: true,
+            message: 'successful',
+            data: getEmployee
+        })
+    }
+    catch(err) {
+        console.log(err);
+        
+    }
+}
