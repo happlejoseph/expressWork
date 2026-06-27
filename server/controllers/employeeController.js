@@ -7,7 +7,7 @@ export const addEmployee = async(req, res, next)=> {
 
     try {
         
-        const {name, email, role} = req.body
+        const {name, email, jobRole} = req.body
 
         if(!name || !email || !role) {
             return res.status(400).json({
@@ -15,7 +15,7 @@ export const addEmployee = async(req, res, next)=> {
             })
         }
         else {
-            const newEmployee = new Employee({name, email, role})
+            const newEmployee = new Employee({name, email, jobRole})
             const saveEmployee = await newEmployee.save()
 
             res.status(200).json({

@@ -13,7 +13,7 @@ const employeeSchema = new mongoose.Schema({
         require: true
     },
 
-    role: {
+    jobRole: {
         type: String,
         require: true
     }
