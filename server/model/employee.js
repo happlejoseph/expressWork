@@ -16,6 +16,11 @@ const employeeSchema = new mongoose.Schema({
     jobRole: {
         type: String,
         require: true
+    },
+
+    image: {
+        type: String,
+        require: true
     }
 },{timestamps:true})
 
