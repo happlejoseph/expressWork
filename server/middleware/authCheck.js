@@ -1,5 +1,6 @@
 import { json } from "express";
-import User from "../model/user";
+import jwt from "jsonwebtoken"
+import User from "../model/user.js";
 
 
 // authorization //
@@ -25,7 +26,7 @@ export const auth = async(req, res, next)=> {
                     token,
                     process.env.JWT_SECRET)
 
-                const validUser = await User.findById({decodedToken.userId})
+                const validUser = await User.findById(decodedToken.userId)
 
                 if(!validUser) {
                     return res.status(400).json({
@@ -52,3 +53,5 @@ export const auth = async(req, res, next)=> {
         }
     }
 }
+
+export default auth;

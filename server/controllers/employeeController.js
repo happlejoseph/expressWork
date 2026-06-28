@@ -5,14 +5,21 @@ import Employee from "../model/employee.js"
 // add employee //
 export const addEmployee = async(req, res, next)=> {
 
+    if(req.userDetails.userRole !== 'admin') {
+
+        return res.status(403).json({
+            message:'only admin can add employees'
+        });
+    }
+
     try {
         
         const {name, email, jobRole} = req.body
 
-        if(!name || !email || !role) {
+        if(!name || !email || !jobRole) {
             return res.status(400).json({
                 message: 'all fields required'
-            })
+            });
         }
         else {
             const newEmployee = new Employee({name, email, jobRole})
@@ -44,7 +51,7 @@ export const getEmployee = async(req, res, next)=> {
             status: true,
             message: 'successful',
             data: getEmployee
-        })
+        });
     }
     catch(err) {
         console.log(err);
@@ -84,7 +91,7 @@ export const singleEmployee = async(req, res, next)=> {
         console.log(err);
         res.status(500).json({
             message: err.message
-        })
+        });
         
     }
 }
@@ -94,6 +101,13 @@ export const singleEmployee = async(req, res, next)=> {
 // edit and update //
 export const updateEmployee = async(req, res, next)=> {
 
+    if(req.userDetails.userId !== 'admin') {
+
+        return req.status(403).json({
+            message:'only admin can edit employees'
+        });
+    }
+
     try {
 
         const {id, name, email, role} = req.body
@@ -101,14 +115,14 @@ export const updateEmployee = async(req, res, next)=> {
         if(!id) {
             return res.status(400).json({
                 message: 'id is required'
-            })
+            });
         }
 
         const employee = await Employee.findById(id)
         if(!employee) {
             return req.status(404).json({
                 message:'employee not found'
-            })
+            });
         }
 
         const updateData = {}
@@ -125,14 +139,14 @@ export const updateEmployee = async(req, res, next)=> {
             status:true,
             message:'successful',
             data:updatedEmployee
-        })
+        });
 
     }
     catch(err) {
         console.log(err);
         res.status(500).json({
             message: err.message
-        })
+        });
         
     }
 }
@@ -142,6 +156,13 @@ export const updateEmployee = async(req, res, next)=> {
 // delete employee //
 export const deleteEmployee = async(req, res, next)=> {
 
+    if(req.userDetails.userId !== 'admin') {
+
+        return res.status(403).json({
+            message:'only admin can delete employees'
+        });
+    }
+
     try {
 
         const {id} = req.body
@@ -149,7 +170,7 @@ export const deleteEmployee = async(req, res, next)=> {
         if(!id) {
             return res.status(400).json({
                 message: 'id is required'
-            })
+            });
         }
 
         const deletedEmployee = await Employee.findByIdAndDelete(id)
@@ -157,21 +178,21 @@ export const deleteEmployee = async(req, res, next)=> {
 
             return res.status(404).json({
                 message: 'employee not found'
-            })
+            });
         }
 
             res.status(200).json({
                 status:true,
                 message:'successful',
                 data:deletedEmployee
-            })
+            });
 
     }
     catch(err) {
         console.log(err);
         res.status(500).json({
             message: err.message
-        })
+        });
         
     }
 }
