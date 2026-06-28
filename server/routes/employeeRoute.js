@@ -1,15 +1,16 @@
 
 
 import Router from "express";
+import auth from '../middleware/authCheck.js'
 import { addEmployee, deleteEmployee, getEmployee, singleEmployee, updateEmployee } from "../controllers/employeeController.js";
 
 
 const router = Router()
 
-router.post('/add', addEmployee)
+router.post('/add', auth, addEmployee)
 router.get('/get', getEmployee)
 router.get('/single', singleEmployee)
-router.put('/edit', updateEmployee)
-router.delete('/delete', deleteEmployee)
+router.put('/edit', auth, updateEmployee)
+router.delete('/delete', auth, deleteEmployee)
 
 export default router
