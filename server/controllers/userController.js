@@ -96,6 +96,11 @@ export const login = async(req, res, next)=> {
                         access_token:token
                     })
                 }
+                else {
+                    return res.status(401).json({
+                        message:'invalid password'
+                    });
+                }
             }
         }
     }

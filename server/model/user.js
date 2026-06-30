@@ -16,17 +16,14 @@ const userSchema = new mongoose.Schema({
 
     phone: {
         type: String,
-        require: true
     },
 
     password: {
         type: String,
-        require: true
     },
 
     role: {
         type: String,
-        require: true,
         enum: ['user', 'admin', 'manager']
     },
 }, {timestamps: true})
