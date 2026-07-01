@@ -16,13 +16,23 @@ export const addEmployee = async(req, res, next)=> {
         
         const {name, email, jobRole} = req.body
 
+        let image;
+
+        if(req.file) {
+            image = req.file.filename
+        }
+        else {
+            image = null
+        }
+
         if(!name || !email || !jobRole) {
             return res.status(400).json({
                 message: 'all fields required'
             });
+
         }
         else {
-            const newEmployee = new Employee({name, email, jobRole})
+            const newEmployee = new Employee({name, email, jobRole, image})
             const saveEmployee = await newEmployee.save()
 
             res.status(200).json({
@@ -80,7 +90,7 @@ export const singleEmployee = async(req, res, next)=> {
             })
         }
         else {
-            req.status(200).json({
+            res.status(200).json({
                 status:true,
                 message:'successful',
                 data:employee
@@ -101,7 +111,7 @@ export const singleEmployee = async(req, res, next)=> {
 // edit and update //
 export const updateEmployee = async(req, res, next)=> {
 
-    if(req.userDetails.userId !== 'admin') {
+    if(res.userDetails.userRole !== 'admin') {
 
         return req.status(403).json({
             message:'only admin can edit employees'
@@ -156,7 +166,7 @@ export const updateEmployee = async(req, res, next)=> {
 // delete employee //
 export const deleteEmployee = async(req, res, next)=> {
 
-    if(req.userDetails.userId !== 'admin') {
+    if(req.userDetails.userRole !== 'admin') {
 
         return res.status(403).json({
             message:'only admin can delete employees'
